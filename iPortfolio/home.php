@@ -52,6 +52,16 @@ if (isset($_SESSION["email"])) {
   <!-- ======= Mobile nav toggle button ======= -->
   <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
 
+  <?php 
+
+  require_once("connection.php");
+  $query = " SELECT * FROM project,team,staff WHERE project.projectid=team.projectid and staff.email=project.guideemail and team.guidename='$username'";
+  /*$query2 = " SELECT * FROM team WHERE guidename='$username'";*/
+  $result = mysqli_query($con,$query);
+  /*$result2 = mysqli_query($con,$query2);*/
+
+  ?>
+
   <!-- ======= Header ======= -->
   <header id="header">
     <div class="d-flex flex-column">
@@ -66,7 +76,7 @@ if (isset($_SESSION["email"])) {
         <ul>
           <li><a href="../index.php" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
 
-          <li><a href="project-details.html" class="nav-link scrollto"><i class="bi bi-graph-up"></i> <span> Submit Project Titles</span></a></li>
+          <li><a href="project-details.php" class="nav-link scrollto"><i class="bi bi-graph-up"></i> <span> Submit Project Titles</span></a></li>
 
           <li><a href="#" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>
         </ul>
@@ -100,13 +110,11 @@ if (isset($_SESSION["email"])) {
                           <table class="table">
                               <thead class="thead-light">
                                   <tr>
-                                      <th>
-                                          
-                                      </th>
+                                      
                                       <th scope="col">Project ID</th>
                                       <th scope="col">Project Description</th>
                                       <th scope="col">Team No</th>
-                                     
+                                      <th scope="col">Team Lead</th>
                                       <th scope="col">Review 1</th>
                                       <th scope="col">Review 2</th>
                                       <th scope="col">Review 3</th>
@@ -115,63 +123,82 @@ if (isset($_SESSION["email"])) {
                                      
 
                                   </tr>
+                                  
+
                               </thead>
                               <tbody class="customtable">
-                                  <tr>
-                                    <th>
-                                          
-                                    </th>
-                                      <td>ss1</td>
-                                      <td>Bankers algorithm</td>
-                                      <td>3</td>
+                              <?php 
+                                    while($row=mysqli_fetch_assoc($result))
+                                    {
+                                        $projectId = $row['projectid'];
+                                        $projectDescription = $row['projectdescription']; 
+                                        $teamNo = $row['teamno'];
+                                        $teamLead = $row['leadname'];
+                                        $review1 = $row['review1'];
+                                        $review2 = $row['review2'];
+                                        $review3 = $row['review3'];
+                                        $total = ($review1+$review2+$review3)/3;
+                                        $report = $row['report'];
+                                       
+                            ?>        
+                            <?php 
                                       
-                                      <td><input type="number"></td>
-                                      <td><input type="number" ></td>
-                                      <td><input type="number"></td>
-                                      <td><input type="number"></td>
-                                      <td>www.google.docs</td>
-                                      
-                                  </tr>
-
-                                  <tr>
-                                    <th>
-                                          
-                                    </th>
-                                    <td>ss2</td>
-                                    <td>Deadlocks</td>
-                                    <td>5</td>
+                             ?>
+                             
+                             <?php 
                                     
-                                    <td><input type="number"></td>
-                                    <td><input type="number"></td>
-                                    <td><input type="number"></td>
-                                    <td><input type="number"></td>
-                                    <td></td>
-                                    
-                                </tr>
-
-                                <tr>
-                                  <th>
                                         
-                                  </th>
-                                  <td>ss3</td>
-                                  <td>Shopping </td>
-                                  <td>4</td>
-                                  
-                                  <td><input type="number"></td>
-                                      <td><input type="number"></td>
-                                      <td><input type="number"></td>
-                                      <td><input type="number"></td>
-                                      <td></td>
-                                     
-                              </tr>
+                            ?>
+                                    <tr>
+                                        <td><?php echo $projectId ?></td>
+                                        <td><?php echo $projectDescription ?></td>
+                                        <td><?php echo $teamNo ?></td>
+                                        <td><?php echo $teamLead ?></td>
+                                        <td><?php echo $review1 ?></td>
+                                        <td><?php echo $review2 ?></td>
+                                        <td><?php echo $review3 ?></td>
+                                        <td><?php echo $total ?></td>
+                                        <td><a href="<?php echo $report ?>"><?php echo "Team-".$teamNo." Report" ?> </a></td>
+                                    </tr>        
+                            <?php 
+                                     } 
+                             ?>
                                   
                               </tbody>
                           </table>
+                          
                       </div>
+                      
               </div>
           </div>
+          <button onclick="openForm()" style="width:300px; margin-left:500px; margin-top:20px"><strong>Add Review Marks</strong></button>
+          <div class="loginPopup">
+                  <div class="formPopup" id="popupForm">
+                    <form action="insert2.php" class="formContainer" method="post">
+                      <h2>Add details</h2>
+                      <label for="projectid">
+                        <strong>Project ID:</strong>
+                      </label>
+                      <input type="text" id="projectid" placeholder="Project ID" name="projectid" required>
+                      <label for="review1">
+                        <strong>Review1 Marks:</strong>
+                      </label>
+                      <input type="int" id="review1" placeholder="Review1 Marks" name="review1" required>
+                      <label for="review2">
+                        <strong>Review2 Marks:</strong>
+                      </label>
+                      <input type="int" id="review2" placeholder="Review2 Marks" name="review2" required>
+                      <label for="review3">
+                        <strong>Review3 Marks:</strong>
+                      </label>
+                      <input type="int" id="review3" placeholder="Review3 Marks" name="review3" required>
+                      <button type="submit" class="btn">Submit</button>
+                      <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                    </form>
+                  </div>
+                </div>
       </div>
-
+      
          </div> 
 
         
@@ -203,6 +230,15 @@ if (isset($_SESSION["email"])) {
   <script src="assets/vendor/typed.js/typed.min.js"></script>
   <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <script>
+    function openForm() {
+      document.getElementById("popupForm").style.display = "block";
+    }
+    function closeForm() {
+      document.getElementById("popupForm").style.display = "none";
+    }
+  </script>
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>

@@ -31,6 +31,11 @@
 </head>
 
 <body>
+  <?php 
+    require_once("connection.php");
+    $query = " SELECT * FROM project";
+    $result = mysqli_query($con,$query);
+  ?>
     <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
       
         <div class="hero-container" data-aos="fade-in">
@@ -42,60 +47,54 @@
                             <h5 class="card-title m-b-0">List of Projects</h5>
                         </div>
                             <div class="table-responsive">
-                                <table class="table">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th>
-                                                
-                                            </th>
-                                            <th scope="col">Project ID</th>
-                                            <th scope="col">Project Description</th>
-                                            <th scope="col">Team No</th>
-                                            <th scope="col">Team Lead</th>
-                                            <th scope="col">Domain</th>
-                                            <th scope="col">Comments </th>
-      
-                                        </tr>
-                                    </thead>
-                                    <tbody class="customtable">
-                                        <tr>
-                                          <th>
-                                                
-                                          </th>
-                                            <td>ss1</td>
-                                            <td>Bankers algorithm</td>
-                                            <td>3</td>
-                                            <td>ABC</td>
-                                            <td>Full Stack</td>
-                                            <td><input type="string"></td>
-                                        </tr>
-      
-                                        <tr>
-                                          <th>
-                                                
-                                          </th>
-                                          <td>ss2</td>
-                                          <td>Deadlocks</td>
-                                          <td>5</td>
-                                          <td>XYZ</td>
-                                          <td>Soft Computing</td>
-                                          <td><input type="string"></td>
-                                      </tr>
-      
-                                      <tr>
-                                        <th>
-                                              
-                                        </th>
-                                        <td>ss3</td>
-                                        <td>Shopping </td>
-                                        <td>4</td>
-                                        <td>STU</td>
-                                        <td>AI/ML</td>
-                                        <td><input type="string"></td>
-                                    </tr>
+                              <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
                                         
-                                    </tbody>
-                                </table>
+                                        <th scope="col">Project ID</th>
+                                        <th scope="col">Project Description</th>
+                                        <th scope="col">Days Required</th>
+                                        <th scope="col">Project Guide</th>
+                                        <th scope="col">Guide Email</th>
+                                        
+                                       
+  
+                                    </tr>
+                                    
+  
+                                </thead>
+                                <tbody class="customtable">
+                                <?php 
+                                      while($row=mysqli_fetch_assoc($result))
+                                      {
+                                          $projectId = $row['projectid'];
+                                          $projectDescription = $row['projectdescription']; 
+                                          $workingDays = $row['workingdays'];
+                                          $projectGuide = $row['guidename'];
+                                          $guideEmail = $row['guideemail'];
+                                         
+                              ?>        
+                              <?php 
+                                        
+                               ?>
+                               
+                               <?php 
+                                      
+                                          
+                              ?>
+                                      <tr>
+                                          <td><?php echo $projectId ?></td>
+                                          <td><?php echo $projectDescription ?></td>
+                                          <td><?php echo $workingDays ?></td>
+                                          <td><?php echo $projectGuide ?></td>
+                                          <td><?php echo $guideEmail ?></td>
+                                      </tr>        
+                              <?php 
+                                       } 
+                               ?>
+                                    
+                                </tbody>
+                            </table>
                             </div>
                     </div>
 
@@ -105,20 +104,20 @@
                 </div>
                 <div class="loginPopup">
                   <div class="formPopup" id="popupForm">
-                    <form action="#" class="formContainer">
+                    <form action="insert.php" class="formContainer" method="post">
                       <h2>Add details</h2>
-                      <label for="title">
-                        <strong>Project Title</strong>
+                      <label for="projectid">
+                        <strong>Project ID:</strong>
                       </label>
-                      <input type="text" id="ptitle" placeholder="Title" name="title" required>
-                      <label for="added">
-                        <strong>Added by:</strong>
+                      <input type="text" id="projectid" placeholder="Project ID" name="projectid" required>
+                      <label for="projectdescription">
+                        <strong>Project Description:</strong>
                       </label>
-                      <input type="text" id="teacher" placeholder="Your Name" name="name" required>
-                      <label for="domain">
-                        <strong>Domain</strong>
+                      <input type="text" id="projectdescription" placeholder="Project Description" name="projectdescription" required>
+                      <label for="workingdays">
+                        <strong>Days Required:</strong>
                       </label>
-                      <input type="text" id="teacher" placeholder="domain" name="name" required>
+                      <input type="int" id="workingdays" placeholder="Days Required" name="workingdays" required>
                       <button type="submit" class="btn">Submit</button>
                       <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
                     </form>

@@ -48,6 +48,16 @@ if (isset($_SESSION["leademail"])) {
 
 <body>
 
+<?php 
+
+require_once("connection.php");
+$query1 = " SELECT * FROM project,student,team WHERE project.projectid=team.projectid and student.leademail=team.leademail and team.leadname='$leadname'";
+/*$query2 = " SELECT * FROM team WHERE leadname='$leadname'";*/
+$result1 = mysqli_query($con,$query1);
+/*$result2 = mysqli_query($con,$query2);*/
+
+    ?>
+
   <!-- ======= Mobile nav toggle button ======= -->
   <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
 
@@ -65,7 +75,7 @@ if (isset($_SESSION["leademail"])) {
         <ul>
           <li><a href="../index.php" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
 
-           <li><a href="student_pro_select.html" class="nav-link scrollto"><i class="bi bi-graph-up"></i> <span>List of Projects</span></a></li>
+           <li><a href="project-details1.php" class="nav-link scrollto"><i class="bi bi-graph-up"></i> <span>List of Projects</span></a></li>
 
           <li><a href="#" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>
         </ul>
@@ -99,9 +109,7 @@ if (isset($_SESSION["leademail"])) {
                           <table class="table">
                               <thead class="thead-light">
                                   <tr>
-                                      <th>
-                                          
-                                      </th>
+                                      
                                       <th scope="col">Project ID</th>
                                       <th scope="col">Project Description</th>
                                       <th scope="col">Team No</th>
@@ -109,57 +117,65 @@ if (isset($_SESSION["leademail"])) {
                                       <th scope="col">Review 1</th>
                                       <th scope="col">Review 2</th>
                                       <th scope="col">Review 3</th>
+                                      <th scope="col">Total</th>
                                       <th scope="col">Report </th>
                                   </tr>
                               </thead>
                               <tbody class="customtable">
-                                  <tr>
-                                    <th>
-                                          
-                                    </th>
-                                      <td>ss1</td>
-                                      <td>Bankers algorithm</td>
-                                      <td>3</td>
-                                      <td>Navneetha</td>
-                                      <td>0</td>
-                                      <td>0</td>
-                                      <td>0</td>
-                                      <td><input type="string"></td>
-                                  </tr>
-
-                                  <tr>
-                                    <th>
-                                          
-                                    </th>
-                                    <td>ss2</td>
-                                    <td>Deadlocks</td>
-                                    <td>5</td>
-                                    <td>ABC</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td><input type="string"></td>
-                                </tr>
-
-                                <tr>
-                                  <th>
+                              <?php 
+                                    while($row=mysqli_fetch_assoc($result1))
+                                    {
+                                        $projectId = $row['projectid'];
+                                        $projectDescription = $row['projectdescription']; 
+                                        $teamNo = $row['teamno'];
+                                        $projectGuide = $row['guidename'];
+                                        $review1 = $row['review1'];
+                                        $review2 = $row['review2'];
+                                        $review3 = $row['review3'];
+                                        $total = ($review1+$review2+$review3)/3;
+                                        $report = $row['report'];
                                         
-                                  </th>
-                                  <td>ss3</td>
-                                  <td>Shopping </td>
-                                  <td>4</td>
-                                  <td>XYZ</td>
-                                  <td>0</td>
-                                  <td>0</td>
-                                  <td>0</td>
-                                  <td><input type="string"></td>
-                              </tr>
+                            ?>        
+                            <?php 
+                                      
+                             ?>
+                             
+                             
+                                    <tr>
+                                        <td><?php echo $projectId ?></td>
+                                        <td><?php echo $projectDescription ?></td>
+                                        <td><?php echo $teamNo ?></td>
+                                        <td><?php echo $projectGuide ?></td>
+                                        <td><?php echo $review1 ?></td>
+                                        <td><?php echo $review2 ?></td>
+                                        <td><?php echo $review3 ?></td>
+                                        <td><?php echo $total ?></td>
+                                        <td><a href="<?php echo $report ?>"><?php echo "Team-".$teamNo." Report" ?> </a></td>
+                                    </tr>        
+                            <?php 
+                                    } 
+                             ?>
                                   
                               </tbody>
                           </table>
                       </div>
               </div>
           </div>
+          <button onclick="openForm()" style="width:200px; margin-left:500px; margin-top:20px"><strong>Add Report</strong></button>
+          <div class="loginPopup">
+                  <div class="formPopup" id="popupForm">
+                    <form action="insert3.php" class="formContainer" method="post">
+                      <h2>Add Report URL</h2>
+                      <label for="report">
+                        <strong>Report URL:</strong>
+                      </label>
+                      <input type="url" id="report" placeholder="Report URL" name="report" required>
+                      
+                      <button type="submit" class="btn">Submit</button>
+                      <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                    </form>
+                  </div>
+                </div>
       </div>
 
          </div> 
@@ -193,6 +209,15 @@ if (isset($_SESSION["leademail"])) {
   <script src="assets/vendor/typed.js/typed.min.js"></script>
   <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <script>
+    function openForm() {
+      document.getElementById("popupForm").style.display = "block";
+    }
+    function closeForm() {
+      document.getElementById("popupForm").style.display = "none";
+    }
+  </script>
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
