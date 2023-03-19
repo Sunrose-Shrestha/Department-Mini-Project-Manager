@@ -104,7 +104,7 @@ if (isset($_SESSION["email"])) {
           <div class="col-12">
               <div class="card">
                   <div class="card-body text-center">
-                      <h5 class="card-title m-b-0">DETAILS OF YOUR  MINI PROJECT</h5>
+                      <h5 class="card-title m-b-0">DETAILS OF YOUR CHOOSEN MINI PROJECT</h5>
                   </div>
                       <div class="table-responsive">
                           <table class="table">

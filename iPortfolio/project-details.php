@@ -44,7 +44,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body text-center">
-                            <h5 class="card-title m-b-0">List of Projects</h5>
+                            <h5 class="card-title m-b-0">List of All Approved Projects</h5>
                         </div>
                             <div class="table-responsive">
                               <table class="table">

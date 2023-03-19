@@ -67,6 +67,8 @@ if (isset($_SESSION["email"])) {
           <li><a href="../index.php" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
 
            <li><a href="../staff-registration.php" class="nav-link scrollto"><i class="bi bi-graph-up"></i> <span>Guide Registration</span></a></li>
+           
+           <li><a href="master-project-details.php" class="nav-link scrollto"><i class="bi bi-graph-up"></i> <span> Approve Project Titles</span></a></li>
 
           <li><a href="#" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>
         </ul>

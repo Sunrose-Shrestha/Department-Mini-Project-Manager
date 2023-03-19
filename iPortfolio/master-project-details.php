@@ -32,8 +32,8 @@
 
 <body>
   <?php 
-    require_once("connection1.php");
-    $query = " SELECT * FROM project where projectid not in (select projectid from team)";
+    require_once("connection.php");
+    $query = " SELECT * FROM project";
     $result = mysqli_query($con,$query);
   ?>
     <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
@@ -44,7 +44,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body text-center">
-                            <h5 class="card-title m-b-0">List of Available Projects</h5>
+                            <h5 class="card-title m-b-0">List of All Projects</h5>
                         </div>
                             <div class="table-responsive">
                               <table class="table">
@@ -97,23 +97,19 @@
                             </table>
                             </div>
                     </div>
-
                     <div class="openBtn">
-                        <button class="openButton" onclick="openForm()"><strong>Select One</strong></button>
+                        <button class="openButton" onclick="openForm()"><strong>Reject Project</strong></button>
                     </div>
+                    
                 </div>
                 <div class="loginPopup">
                   <div class="formPopup" id="popupForm">
-                    <form action="insert1.php" class="formContainer" method="post">
-                      <h2>Add details</h2>
+                    <form action="delete.php" class="formContainer" method="post">
+                      <!--<h2>Add details</h2>-->
                       <label for="projectid">
                         <strong>Project ID:</strong>
                       </label>
                       <input type="text" id="projectid" placeholder="Project ID" name="projectid" required>
-                      <label for="guidename">
-                        <strong>Project Guide:</strong>
-                      </label>
-                      <input type="text" id="guidename" placeholder="Project Guide" name="guidename" required>
                       <button type="submit" class="btn">Submit</button>
                       <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
                     </form>

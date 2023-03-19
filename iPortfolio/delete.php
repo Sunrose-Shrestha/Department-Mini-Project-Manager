@@ -12,7 +12,7 @@
 </head>
 
 <body>
-<!--<h1><a href="home1.php" style="color: black"> 🏠Dashboard </a></h1>-->
+<h1><a href="home3.php" style="color: black"> 🏠Dashboard </a></h1>
 	<center>
 		<?php
 
@@ -21,17 +21,15 @@
 		// password => empty
 		// database name => staff
 		$conn = mysqli_connect("localhost", "root", "", "dmpm");
-		
 		// Check connection
 		if($conn === false){
 			die("ERROR: Could not connect. "
 				. mysqli_connect_error());
 		}
-		
 		session_start();
-		if (isset($_SESSION["leademail"])) {
-    		$leademail = $_SESSION["leademail"];
-    		$leadname = $_SESSION["leadname"];
+		/*if (isset($_SESSION["email"])) {
+    		$guideemail = $_SESSION["email"];
+    		$guidename = $_SESSION["username"];
     		session_write_close();
 		} else {
     		// since the username is not set in session, the user is not-logged-in
@@ -41,26 +39,24 @@
     		session_write_close();
     		$url = "./index.php";
     		header("Location: $url");
-		}
-		
-		// Taking all 4 values from the form data(input)
+		}*/
+		// Taking all 3 values from the form data(input)
 		$projectid = $_REQUEST['projectid'];
-		$guidename = $_REQUEST['guidename'];
-		
 		
 		// Performing insert query execution
-		// here our table name is student_project
-		$sql = "UPDATE team SET projectid='$projectid', guidename='$guidename' WHERE leadname='$leadname'";
+		// here our table name is faculty_project
+		$sql = "DELETE FROM project where projectid='$projectid'";
 		
 		if(mysqli_query($conn, $sql)){
-			echo "<h2>Data stored in a database successfully."
+			echo "<h2>Data removed from the database successfully."
 				. " Please browse your localhost phpmyadmin"
 				. " to view the updated data</h2>";
 
-			/*echo nl2br("<h3>\nStudent name: $student_name \nUSN: $usn \nProject id: $project_id \n Project guide: $project_guide</h3> ");*/
+			/*echo nl2br("<h3>\nProject description: $project_description\nFaculty name: $faculty_name\n "
+				. "Hours required: $hours_required<h3>");*/
 		} else{
-			echo "ERROR: Hush! Sorry $sql."
-			. mysqli_error($conn);
+			echo "ERROR: Hush! Sorry $sql. "
+				. mysqli_error($conn);
 		}
 		
 		// Close connection

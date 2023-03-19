@@ -33,7 +33,7 @@
 <body>
   <?php 
     require_once("connection1.php");
-    $query = " SELECT * FROM project"; //where projectid not in (select projectid from team)";
+    $query = " SELECT * FROM project where projectid not in (select projectid from team)";
     $result = mysqli_query($con,$query);
   ?>
     <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
@@ -44,7 +44,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body text-center">
-                            <h5 class="card-title m-b-0">List of Projects</h5>
+                            <h5 class="card-title m-b-0">List of Available Projects</h5>
                         </div>
                             <div class="table-responsive">
                               <table class="table">
